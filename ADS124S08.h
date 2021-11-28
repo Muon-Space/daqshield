@@ -1,0 +1,150 @@
+/*
+ * \brief Definitions for the ADS124S08 part
+ *
+ * This library has all necessary functions for using the ADS124S08
+ * and DATAFLASH part on the Arduino DAQShield.
+ * Copyright (c) 2012 by Jonny Dyer <jonny.dyer@gmail.com>
+ * 
+ * This file is free software; you can redistribute it and/or modify
+ * it under the terms of either the GNU General Public License version 2
+ * or the GNU Lesser General Public License version 2.1, both as
+ * published by the Free Software Foundation.
+ */
+
+#ifndef _ADS124S08_H_INCLUDED
+#define _ADS124S08_H_INCLUDED
+
+// Commands
+#define ADS124S08_RESET 2
+#define ADS124S08_START 3
+#define ADS124S08_DRDY 4
+#define ADS124S08_SPI_MODE ((0<<CPOL) | (1<<CPHA))
+#define ADS124S08_CMD_NOP 0x00
+#define ADS124S08_CMD_WAKE 0x02
+#define ADS124S08_CMD_POWERDOWN 0x04
+#define ADS124S08_CMD_RESET 0x06
+#define ADS124S08_CMD_START 0x08
+#define ADS124S08_CMD_STOP 0x0A
+#define ADS124S08_CMD_SYOCAL 0x16
+#define ADS124S08_CMD_SYGCAL 0x17
+#define ADS124S08_CMD_SFOCAL 0x19
+#define ADS124S08_CMD_RDATA 0x12
+#define ADS124S08_CMD_RREG 0x20
+#define ADS124S08_CMD_WREG 0x40 
+
+// Registers
+#define ADS124S08_ID 0x00
+#define ADS124S08_STATUS 0x01
+#define ADS124S08_INPMUX 0x02
+#define ADS124S08_PGA 0x03
+#define ADS124S08_DATARATE 0x04
+#define ADS124S08_REF 0x05
+#define ADS124S08_IDACMAG 0x06
+#define ADS124S08_IDACMUX 0x07
+#define ADS124S08_VBIAS 0x08
+#define ADS124S08_SYS 0x09
+#define ADS124S08_OFCAL0 0x0A
+#define ADS124S08_OFCAL1 0x0B
+#define ADS124S08_OFCAL2 0x0B
+#define ADS124S08_FSCAL0 0x0D
+#define ADS124S08_FSCAL1 0x0E
+#define ADS124S08_FSCAL2 0x0F
+#define ADS124S08_GPIODAT 0x10
+#define ADS124S08_GPIOCON 0x11
+
+// Status Register
+#define ADS124S08_STATUS_FL_REF_L0 (0x01 << 0)
+#define ADS124S08_STATUS_FL_REF_L1 (0x01 << 1)
+#define ADS124S08_STATUS_FL_N_RAILN (0x01 << 2)
+#define ADS124S08_STATUS_FL_N_RAILP (0x01 << 3)
+#define ADS124S08_STATUS_FL_P_RAILN (0x01 << 4)
+#define ADS124S08_STATUS_FL_P_RAILP (0x01 << 5)
+#define ADS124S08_STATUS_nRDY (0x01 << 6)
+#define ADS124S08_STATUS_FL_POR (0x01 << 7)
+
+// DATARATE settings for ADS124S08
+#define ADS124S08_DR_SINC_FILT (0x00 << 4)
+#define ADS124S08_DR_LOW_LATENCY_FILT (0x01 << 4)
+#define ADS124S08_DR_MODE (0x01 << 5)
+#define ADS124S08_DR_CLK_ENABLE (0x01 << 6)
+#define ADS124S08_DR_CLK_DISABLE (0x00 << 6)
+#define ADS124S08_DR_G_CHOP (0x01 << 7)
+#define ADS124S08_2_5_SPS 0x00
+#define ADS124S08_5_SPS 0x01
+#define ADS124S08_10_SPS 0x02
+#define ADS124S08_16_6_SPS 0x03
+#define ADS124S08_20_SPS 0x04
+#define ADS124S08_50_SPS 0x05
+#define ADS124S08_60_SPS 0x06
+#define ADS124S08_100_SPS 0x07
+#define ADS124S08_200_SPS 0x08
+#define ADS124S08_400_SPS 0x09
+#define ADS124S08_800_SPS 0x0A
+#define ADS124S08_1000_SPS 0x0B
+#define ADS124S08_2000_SPS 0x0C
+#define ADS124S08_4000_SPS 0x0D
+
+// PGA settings for ADS124S08
+#define ADS124S08_PGA_1 (0x00 << 0)
+#define ADS124S08_PGA_2 (0x01 << 0)
+#define ADS124S08_PGA_4 (0x02 << 0)
+#define ADS124S08_PGA_8 (0x03 << 0)
+#define ADS124S08_PGA_16 (0x04 << 0)
+#define ADS124S08_PGA_32 (0x05 << 0)
+#define ADS124S08_PGA_64 (0x06 << 0)
+#define ADS124S08_PGA_128 (0x07 << 0)
+#define ADS124S08_PGA_EN (0x01 << 3)
+
+// IDAC settings for ADS124S08
+#define ADS124S08_IMAG_0uA 0x00
+#define ADS124S08_IMAG_10uA 0x01
+#define ADS124S08_IMAG_50uA 0x02
+#define ADS124S08_IMAG_100uA 0x03
+#define ADS124S08_IMAG_250uA 0x04
+#define ADS124S08_IMAG_500uA 0x05
+#define ADS124S08_IMAG_750uA 0x06
+#define ADS124S08_IMAG_1000uA 0x07
+#define ADS124S08_IMAG_1500uA 0x08
+#define ADS124S08_IMAG_2000uA 0x09
+
+// Reference settings for ADS124S08
+#define ADS124S08_REFSEL_REF0 (0x00 << 2)
+#define ADS124S08_REFSEL_REF1 (0x01 << 2)
+#define ADS124S08_REFSEL_INTVREF (0x02 << 2)
+#define ADS124S08_REFCON_INT_OFF (0x00 << 0)
+#define ADS124S08_REFCON_INT_ON_PD (0x01 << 0)
+#define ADS124S08_REFCON_INT_ON (0x02 << 0)
+#define ADS124S08_nREFP_BUF (0x01 << 5)
+#define ADS124S08_nREFN_BUF (0x01 << 4)
+
+#define ADS124S08_MUXCAL_NORM 0x00
+#define ADS124S08_MUXCAL_OFFSET 0x01
+#define ADS124S08_MUXCAL_GAIN 0x02
+#define ADS124S08_MUXCAL_TEMP 0x03
+#define ADS124S08_MUXCAL_REF1 0x04
+#define ADS124S08_MUXCAL_REF0 0x05
+#define ADS124S08_MUXCAL_AVDD 0x06
+#define ADS124S08_MUXCAL_DVDD 0x07
+
+#define GAIN_FOR_PGA_SETTING(x) (float)(1 << (x & ADS124S08_PGA_GAIN_MASK))
+
+// Register Bit Masks
+#define ADS124S08_MUXN_MASK 0x0F			
+#define ADS124S08_MUXP_MASK 0xF0			
+#define ADS124S08_I1MUX_MASK 0x0F			
+#define ADS124S08_I2MUX_MASK 0xF0			
+#define ADS124S08_PGA_EN_MASK 0x18
+#define ADS124S08_PGA_GAIN_MASK 0x07
+#define ADS124S08_PGA_DELAY_MASK 0xE0
+#define ADS124S08_DR_MASK 0x0F
+
+#define ADS124S08_REFSEL_MASK 0x0F
+
+#define ADS124S08_MAX_VAL 0x7FFFFF
+#define ADS124S08_MIN_VAL 0x800000
+#define ADS124S08_RANGE 0xFFFFFF
+#define ADS124S08_INT_REF_MV 2500
+
+#define ADS124S08_DELAY delayMicroseconds(10)
+
+#endif
